@@ -1,14 +1,14 @@
-import BN = require('bn.js')
-import rlp = require('rlp')
-const createKeccakHash = require('keccak')
-const secp256k1 = require('secp256k1')
-const assert = require('assert')
-const createHash = require('create-hash')
-const Buffer = require('safe-buffer').Buffer
-const ethjsUtil = require('ethjs-util')
-Object.assign(exports, ethjsUtil)
+import BN = require('bn.js')   /**still there**/
+import rlp = require('rlp')    /**still there**/
+const createKeccakHash = require('keccak')   /**move to the folder ./hash**/
+const secp256k1 = require('secp256k1')   /**still there however changed to v3-adapter**/
+const assert = require('assert')  /**removed**/
+const createHash = require('create-hash')  /**removed**/
+const Buffer = require('safe-buffer').Buffer  /**move to the folder ./bytes**/
+const ethjsUtil = require('ethjs-util')   /**still there**/
+Object.assign(exports, ethjsUtil)    /**still there**/
 
-export interface ECDSASignature {
+export interface ECDSASignature {  /**move to the folder called signature.ts**/
   v: number
   r: Buffer
   s: Buffer
