@@ -1,14 +1,14 @@
-import BN = require('bn.js')   /**still there**/
-import rlp = require('rlp')    /**still there**/
-const createKeccakHash = require('keccak')   /**move to the folder ./hash**/
-const secp256k1 = require('secp256k1')   /**still there however changed to v3-adapter**/
-const assert = require('assert')  /**moved to account.ts folder**/
-const createHash = require('create-hash')  /**removed**/
-const Buffer = require('safe-buffer').Buffer  /**move to the folder ./bytes**/
-const ethjsUtil = require('ethjs-util')   /**still there**/
-Object.assign(exports, ethjsUtil)    /**still there**/
+import BN = require('bn.js')   /**still there*/
+import rlp = require('rlp')    /**still there*/
+const createKeccakHash = require('keccak')   /**rather require ethereum-cryptography/keccak*/
+const secp256k1 = require('secp256k1')   /**still there however changed to v3-adapter*/
+const assert = require('assert')  /**moved to account.ts folder*/
+const createHash = require('create-hash')   /**move to the folder ./hash*/
+const Buffer = require('safe-buffer').Buffer  /**move to the folder ./bytes*/
+const ethjsUtil = require('ethjs-util')   /**still there*/
+Object.assign(exports, ethjsUtil)    /**still there*/
 
-export interface ECDSASignature {  /**move to the folder called signature.ts**/
+export interface ECDSASignature {  /**move to the folder called signature.ts*/
   v: number
   r: Buffer
   s: Buffer
@@ -214,15 +214,16 @@ export const toUnsigned = function(num: BN): Buffer {
 }
 
 /**
- * Creates Keccak hash of the input
+ * Creates Keccak hash of the input           
  * @param a The input data (Buffer|Array|String|Number)
  * @param bits The Keccak width
- */
-export const keccak = function(a: any, bits: number = 256): Buffer {
-  a = toBuffer(a)
-  if (!bits) bits = 256
+ */  
+/**hash.ts*/
+export const keccak = function(a: any, bits: number = 256): Buffer {  /**first a if-else statement*/
+  a = toBuffer(a) /**.from 'utf8' else would be like line 222*/
+  if (!bits) bits = 256  /**switch case (bits)*/ /**check ver6.2.1*/
 
-  return createKeccakHash(`keccak${bits}`)
+  return createKeccakHash(`keccak${bits}`) /**deleted*/
     .update(a)
     .digest()
 }
@@ -231,7 +232,7 @@ export const keccak = function(a: any, bits: number = 256): Buffer {
  * Creates Keccak-256 hash of the input, alias for keccak(a, 256).
  * @param a The input data (Buffer|Array|String|Number)
  */
-export const keccak256 = function(a: any): Buffer {
+export const keccak256 = function(a: any): Buffer {  /*same as ver6.2.1 line 45**/
   return keccak(a)
 }
 
@@ -239,7 +240,7 @@ export const keccak256 = function(a: any): Buffer {
  * Creates SHA256 hash of the input.
  * @param a The input data (Buffer|Array|String|Number)
  */
-export const sha256 = function(a: any): Buffer {
+export const sha256 = function(a: any): Buffer { /**same as line 50**/
   a = toBuffer(a)
   return createHash('sha256')
     .update(a)
@@ -251,7 +252,7 @@ export const sha256 = function(a: any): Buffer {
  * @param a The input data (Buffer|Array|String|Number)
  * @param padded Whether it should be padded to 256 bits or not
  */
-export const ripemd160 = function(a: any, padded: boolean): Buffer {
+export const ripemd160 = function(a: any, padded: boolean): Buffer { /** Is this really needed? check*/
   a = toBuffer(a)
   const hash = createHash('rmd160')
     .update(a)
@@ -267,8 +268,8 @@ export const ripemd160 = function(a: any, padded: boolean): Buffer {
  * Creates SHA-3 hash of the RLP encoded version of the input.
  * @param a The input data
  */
-export const rlphash = function(a: rlp.Input): Buffer {
-  return keccak(rlp.encode(a))
+export const rlphash = function(a: rlp.Input): Buffer { /** Is this really needed? check*/
+  return keccak(rlp.encode(a))   /** Is this really needed? hash.ts ends here*/
 }
 
 /**
@@ -432,6 +433,8 @@ export const fromRpcSig = function(sig: string): ECDSASignature {
 export const privateToAddress = function(privateKey: Buffer): Buffer {
   return publicToAddress(privateToPublic(privateKey))
 }
+
+/**returns a zero address. export const zeroAddress =  function(): string {  (line11 account.ts)*/
 
 /**
  * Checks if the address is a valid. Accepts checksummed addresses too.
