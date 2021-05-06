@@ -434,7 +434,7 @@ export const privateToAddress = function(privateKey: Buffer): Buffer {
   return publicToAddress(privateToPublic(privateKey))
 }
 
-/**returns a zero address. export const zeroAddress =  function(): string {  (line11 account.ts)*/
+/**returns a zero address. export const zeroAddress =  function(): string {  (line11) account.ts*/
 
 /**
  * Checks if the address is a valid. Accepts checksummed addresses too.
@@ -454,8 +454,14 @@ export const isZeroAddress = function(address: string): boolean {
 /**
  * Returns a checksummed address.
  */
-export const toChecksumAddress = function(address: string): string {
+/** adds eip1191ChainId. chainId will be included checksum calculation. 1 checkedsummed addresses and others invalid.
+*checksums with and without chainId will differ. 
+*/
+
+/**string, eip1191ChainId?: number*/
+export const toChecksumAddress = function(address: string): string { 
   address = ethjsUtil.stripHexPrefix(address).toLowerCase()
+  /** const prefix = eip1191ChainId !--undefined ? line45*/
   const hash = keccak(address).toString('hex')
   let ret = '0x'
 
