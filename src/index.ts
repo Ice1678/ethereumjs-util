@@ -268,8 +268,8 @@ export const ripemd160 = function(a: any, padded: boolean): Buffer { /** Is this
  * Creates SHA-3 hash of the RLP encoded version of the input.
  * @param a The input data
  */
-export const rlphash = function(a: rlp.Input): Buffer { /** Is this really needed? check*/
-  return keccak(rlp.encode(a))   /** Is this really needed? hash.ts ends here*/
+export const rlphash = function(a: rlp.Input): Buffer { /** check if it is needed */
+  return keccak(rlp.encode(a))   
 }
 
 /**
@@ -434,7 +434,10 @@ export const privateToAddress = function(privateKey: Buffer): Buffer {
   return publicToAddress(privateToPublic(privateKey))
 }
 
-/**returns a zero address. export const zeroAddress =  function(): string {  (line11) account.ts*/
+/**returns a zero address. 
+*export const zeroAddress =  function(): string {  (line11) account.ts
+*
+*/
 
 /**
  * Checks if the address is a valid. Accepts checksummed addresses too.
@@ -454,14 +457,21 @@ export const isZeroAddress = function(address: string): boolean {
 /**
  * Returns a checksummed address.
  */
-/** adds eip1191ChainId. chainId will be included checksum calculation. 1 checkedsummed addresses and others invalid.
-*checksums with and without chainId will differ. 
+/** adds eip1191ChainId. chainId will be included checksum calculation.
+* 1 checkedsummed addresses and others invalid.
+* warning: checksums with and without chainId will differ. 
+* Before 2019.6 Ethereum was without the chainId.
 */
 
 /**string, eip1191ChainId?: number*/
 export const toChecksumAddress = function(address: string): string { 
   address = ethjsUtil.stripHexPrefix(address).toLowerCase()
-  /** const prefix = eip1191ChainId !--undefined ? line45*/
+  
+  /** const prefix = eip1191ChainId !--undefined ? eip1191ChainId.toString() + '0x' : ''
+  * line45
+  */
+  
+  /** keccak(prefix)*/
   const hash = keccak(address).toString('hex')
   let ret = '0x'
 
@@ -478,6 +488,9 @@ export const toChecksumAddress = function(address: string): string {
 
 /**
  * Checks if the address is a valid checksummed address.
+ *
+ *documentation: same as line 64 & 66
+ *string, eip1191ChainId?: number
  */
 export const isValidChecksumAddress = function(address: string): boolean {
   return isValidAddress(address) && toChecksumAddress(address) === address
