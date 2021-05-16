@@ -1,11 +1,11 @@
-import BN = require('bn.js')   /**still there*/
+import BN = require('bn.js')   /**still there  accounts&bytes*/
 import rlp = require('rlp')    /**still there*/
 const createKeccakHash = require('keccak')   /**rather require ethereum-cryptography/keccak*/
 const secp256k1 = require('secp256k1')   /**still there however changed to v3-adapter*/
 const assert = require('assert')  /**moved to account.ts folder*/
 const createHash = require('create-hash')   /**move to the folder ./hash*/
 const Buffer = require('safe-buffer').Buffer  /**move to the folder ./bytes*/
-const ethjsUtil = require('ethjs-util')   /**still there*/
+const ethjsUtil = require('ethjs-util')   /**still there accounts&bytes*/
 Object.assign(exports, ethjsUtil)    /**still there*/
 
 export interface ECDSASignature {  /**move to the folder called signature.ts*/
@@ -15,6 +15,7 @@ export interface ECDSASignature {  /**move to the folder called signature.ts*/
 }
 
 /**
+ * Constants.ts starts here
  * The max integer that this VM can handle
  */
 export const MAX_INTEGER: BN = new BN(
@@ -64,6 +65,11 @@ export const KECCAK256_RLP_S: string =
 export const KECCAK256_RLP: Buffer = Buffer.from(KECCAK256_RLP_S, 'hex')
 
 /**
+ * constants.ts ends here
+ */
+
+
+/**
  * [`BN`](https://github.com/indutny/bn.js)
  */
 export { BN }
@@ -79,6 +85,7 @@ export { rlp }
 export { secp256k1 }
 
 /**
+ * bytes.ts starts here
  * Returns a buffer filled with 0s.
  * @param bytes the number of bytes the buffer should be
  */
@@ -274,6 +281,8 @@ export const rlphash = function(a: rlp.Input): Buffer { /** check if it is neede
 
 /**
  * Checks if the private key satisfies the rules of the curve secp256k1.
+ *
+ * comes after precompiled account (Byzantium). line 125
  */
 export const isValidPrivate = function(privateKey: Buffer): boolean {
   return secp256k1.privateKeyVerify(privateKey)
@@ -327,6 +336,7 @@ export const privateToPublic = function(privateKey: Buffer): Buffer {
 
 /**
  * Converts a public key to the Ethereum format.
+ * address.ts ends here really important
  */
 export const importPublic = function(publicKey: Buffer): Buffer {
   publicKey = toBuffer(publicKey)
@@ -550,7 +560,13 @@ export const isPrecompiled = function(address: Buffer | string): boolean {
 
 /**
  * Adds "0x" to a given `String` if it does not already start with "0x".
+ *
+ * starting from here is not part of address.ts jump to line 278
  */
+
+/**
+* starting from here its bytes.ts again
+*/
 export const addHexPrefix = function(str: string): string {
   if (typeof str !== 'string') {
     return str
@@ -558,6 +574,7 @@ export const addHexPrefix = function(str: string): string {
 
   return ethjsUtil.isHexPrefixed(str) ? str : '0x' + str
 }
+
 
 /**
  * Validate a ECDSA signature.
@@ -598,6 +615,10 @@ export const isValidSignature = function(
   return true
 }
 
+
+/**
+* starting from here its bytes.ts and also byte.ts ends here.
+*/ 
 /**
  * Converts a `Buffer` or `Array` to JSON.
  * @param ba (Buffer|Array)
