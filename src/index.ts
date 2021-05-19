@@ -444,11 +444,6 @@ export const privateToAddress = function(privateKey: Buffer): Buffer {
   return publicToAddress(privateToPublic(privateKey))
 }
 
-/**returns a zero address. 
-*export const zeroAddress =  function(): string {  (line11) account.ts
-*
-*/
-
 /**
  * Checks if the address is a valid. Accepts checksummed addresses too.
  */
@@ -561,7 +556,7 @@ export const isPrecompiled = function(address: Buffer | string): boolean {
 /**
  * Adds "0x" to a given `String` if it does not already start with "0x".
  *
- * starting from here is not part of address.ts jump to line 278
+ * starting from here is not part of account.ts jump to line 278
  */
 
 /**
