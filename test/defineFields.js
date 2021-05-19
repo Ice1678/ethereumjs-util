@@ -108,7 +108,7 @@ describe('define', function () {
 
     ethUtil.defineProperties(someOb, fields, data)
     assert.equal(someOb.blah.toString('hex'), '01')
-    someOb.blah = 'lol'
+    someOb.blah = '0x09'
     assert.equal(someOb.blah.toString('hex'), '09')
     assert.equal(someOb.aword.toString('hex'), '09')
   })
