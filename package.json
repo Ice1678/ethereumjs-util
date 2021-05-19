@@ -24,6 +24,11 @@
     "tslint": "ethereumjs-config-tslint",
     "tslint:fix": "ethereumjs-config-tslint-fix"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ethereumjs/ethereumjs-util.git"
